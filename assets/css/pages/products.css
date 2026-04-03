@@ -1,0 +1,29 @@
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+.filter-btn {
+    padding: 8px 20px;
+    font-family: var(--font);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 2px solid var(--gray-200);
+    background: var(--white);
+    cursor: pointer;
+    transition: var(--ease);
+}
+.filter-btn:hover,
+.filter-btn.active {
+    border-color: var(--black);
+    background: var(--black);
+    color: var(--white);
+}
+@media (max-width: 768px) {
+    .filter-bar { gap: 8px; }
+    .filter-btn { padding: 6px 14px; font-size: 0.7rem; }
+}
