@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2026 at 05:51 PM
+-- Generation Time: Apr 03, 2026 at 09:14 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,6 +38,14 @@ CREATE TABLE `tb_addresses` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_addresses`
+--
+
+INSERT INTO `tb_addresses` (`addr_id`, `u_id`, `addr_label`, `addr_fullname`, `addr_phone`, `addr_detail`, `is_default`, `created_at`, `updated_at`) VALUES
+(1, 2, 'บ้าน', 'Teeranai Thong-u-thai', '0639315561', '123 home Building, Bangkok, 10110', 1, '2026-04-01 04:55:14', '2026-04-03 07:11:32'),
+(2, 2, 'Office', 'Teeranai Thong-u-thai', '0639315561', '123 Office Building, Bangkok, 10110', 0, '2026-04-01 04:55:37', '2026-04-01 04:59:52');
 
 -- --------------------------------------------------------
 
@@ -80,6 +88,7 @@ CREATE TABLE `tb_orders` (
   `o_address` text DEFAULT NULL,
   `o_total` decimal(10,2) NOT NULL,
   `o_status` enum('pending','confirmed','shipped','done','cancelled') DEFAULT 'pending',
+  `admin_note` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -88,8 +97,10 @@ CREATE TABLE `tb_orders` (
 -- Dumping data for table `tb_orders`
 --
 
-INSERT INTO `tb_orders` (`o_id`, `u_id`, `addr_id`, `o_fullname`, `o_phone`, `o_address`, `o_total`, `o_status`, `created_at`, `updated_at`) VALUES
-(1, 2, NULL, 'Teeranai Thong-u-thai', '0639315561', 'บ้านม้งหนองหอย ต.แม่แรม อ.แม่ริม จ.เชียงใหม่ 50180', 3890.00, 'cancelled', '2026-03-31 15:14:48', '2026-03-31 15:20:06');
+INSERT INTO `tb_orders` (`o_id`, `u_id`, `addr_id`, `o_fullname`, `o_phone`, `o_address`, `o_total`, `o_status`, `admin_note`, `created_at`, `updated_at`) VALUES
+(3, 2, 1, 'Teeranai Thong-u-thai', '0639315561', '123 Office Building, Bangkok, 10110', 3940.00, 'cancelled', 'ควย', '2026-04-01 05:02:11', '2026-04-01 06:12:22'),
+(4, 2, 1, 'Teeranai Thong-u-thai', '0639315561', '123 Office Building, Bangkok, 10110', 3940.00, 'cancelled', NULL, '2026-04-01 05:35:56', '2026-04-01 05:42:04'),
+(5, 2, 1, 'Teeranai Thong-u-thai', '0639315561', '123 Office Building, Bangkok, 10110', 35060.00, 'done', NULL, '2026-04-01 05:52:30', '2026-04-01 06:21:36');
 
 -- --------------------------------------------------------
 
@@ -112,7 +123,9 @@ CREATE TABLE `tb_order_details` (
 --
 
 INSERT INTO `tb_order_details` (`d_id`, `o_id`, `p_id`, `color_id`, `size_number`, `qty`, `price_at_order`) VALUES
-(1, 1, 1, NULL, '42', 1, 3890.00);
+(2, 3, 1, NULL, '42', 1, 3890.00),
+(3, 4, 1, NULL, '42', 1, 3890.00),
+(4, 5, 1, NULL, '42', 9, 3890.00);
 
 -- --------------------------------------------------------
 
@@ -137,7 +150,9 @@ CREATE TABLE `tb_payments` (
 --
 
 INSERT INTO `tb_payments` (`pay_id`, `o_id`, `pay_slip`, `pay_amount`, `pay_date`, `pay_status`, `admin_note`, `created_at`, `updated_at`) VALUES
-(1, 1, '69cbe531a22b5.jpg', 3890.00, '2026-03-31 17:14:00', 'approved', '', '2026-03-31 15:16:01', '2026-03-31 15:17:42');
+(2, 3, '69cca6ecaf549.jpg', 3940.00, '2026-04-01 07:02:00', 'approved', '', '2026-04-01 05:02:36', '2026-04-01 05:20:03'),
+(3, 4, '69ccaeefd4f33.jpg', 3940.00, '2026-04-01 07:36:00', 'pending', NULL, '2026-04-01 05:36:47', '2026-04-01 05:36:47'),
+(4, 5, '69ccb7979ef22.jpg', 35060.00, '2026-04-01 08:13:00', 'approved', 'ดีๆ', '2026-04-01 05:52:47', '2026-04-01 06:14:03');
 
 -- --------------------------------------------------------
 
@@ -162,7 +177,7 @@ CREATE TABLE `tb_products` (
 --
 
 INSERT INTO `tb_products` (`p_id`, `p_name`, `b_id`, `p_price`, `p_detail`, `p_img`, `p_status`, `created_at`, `updated_at`) VALUES
-(1, 'VANS PREMIUM OLD SKOOL - BLACK/WHITE', 6, 3890.00, 'Style 36 รองเท้าสเก็ตคู่ที่สองที่ Vans สร้างขึ้น เปิดตัวครั้งแรกในปี 1977 และเป็นรองเท้ารุ่นแรกของ Vans ที่มี Sidestripe™ อันเป็นเอกลักษณ์ (หรือที่รู้จักในชื่อ “Jazz Stripe”) ซึ่งกลายเป็นสัญลักษณ์สำคัญในประวัติศาสตร์รองเท้า ต่อมา Style 36 ถูกเปลี่ยนชื่อเป็น Old Skool™ ในช่วงต้นยุค 90 ก่อนจะฉลองครบรอบ 30 ปี และกลายเป็นส่วนหนึ่งของ Vans Classic อย่างเป็นทางการ รายละเอียดการออกแบบของรองเท้า Premium Old Skool 36 ประกอบด้วยขอบยางที่มีความเงาสูงขึ้นและการเย็บที่ละเอียดอ่อน\r\nผ้าแคนวาสน้ำหนัก 8 ออนซ์ พร้อมการพิมพ์ลายและหนังกลับ รองเท้าทรงโลว์ท็อปพร้อม Sidestripe™ อันเป็นเอกลักษณ์ ขอบรองเท้าบุด้วยหนังฟูลเกรน เชือกรองเท้าผ้าฝ้าย 100% ป้ายโลโก้แบบถัก ขอบยางสูงขึ้นพร้อมผิวเงา เทปขอบรองเท้าเสริมความแข็งแรงแบบ Osnaburg สไตล์ยุค 90 ปลอกคอบุนุ่ม พื้นรองเท้า Sola Foam All-Day-Comfort (ADC) ที่ป้องกันความเมื่อยล้าและผลิตจากวัสดุชีวภาพ 30%', '69cbe3f7a2d52.jpg', 'active', '2026-03-31 15:10:47', '2026-03-31 15:10:47');
+(1, 'VANS PREMIUM OLD SKOOL - BLACK/WHITE', 6, 3890.00, 'Style 36 รองเท้าสเก็ตคู่ที่สองที่ Vans สร้างขึ้น เปิดตัวครั้งแรกในปี 1977 และเป็นรองเท้ารุ่นแรกของ Vans ที่มี Sidestripe™ อันเป็นเอกลักษณ์ (หรือที่รู้จักในชื่อ “Jazz Stripe”) ซึ่งกลายเป็นสัญลักษณ์สำคัญในประวัติศาสตร์รองเท้า ต่อมา Style 36 ถูกเปลี่ยนชื่อเป็น Old Skool™ ในช่วงต้นยุค 90 ก่อนจะฉลองครบรอบ 30 ปี และกลายเป็นส่วนหนึ่งของ Vans Classic อย่างเป็นทางการ รายละเอียดการออกแบบของรองเท้า Premium Old Skool 36 ประกอบด้วยขอบยางที่มีความเงาสูงขึ้นและการเย็บที่ละเอียดอ่อน', '69cbe3f7a2d52.jpg', 'active', '2026-03-31 15:10:47', '2026-03-31 16:59:23');
 
 -- --------------------------------------------------------
 
@@ -177,6 +192,33 @@ CREATE TABLE `tb_product_colors` (
   `color_img` varchar(255) DEFAULT 'no_image.png',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_product_gallery`
+--
+
+CREATE TABLE `tb_product_gallery` (
+  `g_id` int(11) NOT NULL,
+  `p_id` int(11) NOT NULL,
+  `color_id` int(11) DEFAULT NULL,
+  `g_img` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_product_gallery`
+--
+
+INSERT INTO `tb_product_gallery` (`g_id`, `p_id`, `color_id`, `g_img`, `created_at`) VALUES
+(1, 1, NULL, '69cbfd6b6a384.jpg', '2026-03-31 16:59:23'),
+(2, 1, NULL, '69cbfd6b6acf8.jpg', '2026-03-31 16:59:23'),
+(3, 1, NULL, '69cbfd6b6b5ad.jpg', '2026-03-31 16:59:23'),
+(4, 1, NULL, '69cbfd6b6c1a5.jpg', '2026-03-31 16:59:23'),
+(6, 1, NULL, '69cbfd6b6db40.jpg', '2026-03-31 16:59:23'),
+(10, 1, NULL, '69cc007b965f6.jpg', '2026-03-31 17:12:27'),
+(11, 1, NULL, '69cc007b97030.jpg', '2026-03-31 17:12:27');
 
 -- --------------------------------------------------------
 
@@ -198,7 +240,7 @@ CREATE TABLE `tb_stock` (
 --
 
 INSERT INTO `tb_stock` (`s_id`, `p_id`, `color_id`, `size_number`, `qty`, `updated_at`) VALUES
-(1, 1, NULL, '42', 10, '2026-03-31 15:20:06');
+(2, 1, NULL, '42', 1, '2026-04-01 06:12:22');
 
 -- --------------------------------------------------------
 
@@ -213,7 +255,9 @@ CREATE TABLE `tb_users` (
   `u_fullname` varchar(100) DEFAULT NULL,
   `u_tel` varchar(20) DEFAULT NULL,
   `u_address` text DEFAULT NULL,
+  `u_avatar` varchar(255) DEFAULT 'default_avatar.png',
   `u_level` enum('admin','user') DEFAULT 'user',
+  `u_status` enum('active','suspended') DEFAULT 'active',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -222,9 +266,11 @@ CREATE TABLE `tb_users` (
 -- Dumping data for table `tb_users`
 --
 
-INSERT INTO `tb_users` (`u_id`, `u_username`, `u_password`, `u_fullname`, `u_tel`, `u_address`, `u_level`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '$2y$10$hy25pfaNzH1ZnwMgTC4znu0/HpSthkxbIMo24PyjIhbP43c2Iy7Ne', 'admin', '0639315561', NULL, 'admin', '2026-03-31 10:17:15', '2026-03-31 10:17:41'),
-(2, 'test', '$2y$10$xjedx9e7QDcdqRwtNSyEzesmF3CG9KvTi3BeqMxuvcStqXznz0FA6', 'Teeranai Thong-u-thai', '0639315561', NULL, 'user', '2026-03-31 10:14:41', '2026-03-31 10:14:41');
+INSERT INTO `tb_users` (`u_id`, `u_username`, `u_password`, `u_fullname`, `u_tel`, `u_address`, `u_avatar`, `u_level`, `u_status`, `created_at`, `updated_at`) VALUES
+(1, 'admin', '$2y$10$hy25pfaNzH1ZnwMgTC4znu0/HpSthkxbIMo24PyjIhbP43c2Iy7Ne', 'admin', '0877711717', '323 ถนนนารายณ์มหาราช ต.ทะเลชุบศร อ.เมือง จ.ลพบุรี 15000', 'default_avatar.png', 'admin', 'active', '2026-03-31 10:17:15', '2026-04-03 07:13:19'),
+(2, 'test', '$2y$10$jL.zoPV9yUKvDgJrbnU0PeY5G.aRLhs.cVxnv.3uSf1f.xUVGKMoe', 'Teeranai Thong-u-thai', '0877711717', NULL, 'avatar_2_1775024609.jpg', 'user', 'active', '2026-03-31 10:14:41', '2026-04-03 07:13:52'),
+(3, 'testuser', '$2y$10$VRZuOskFodUIWMHLJPvRMOPru13BkhO5jEQmNy339i7NOddq/rbme', 'Test User', '0812345678', '123 Test St, Bangkok', 'default_avatar.png', 'user', 'active', '2026-04-01 04:27:50', '2026-04-01 06:59:26'),
+(4, 'testuser2', '$2y$10$xIlzCe91rW4qZxKbk2kRQevxyFlDFjjuZmokrFXk3cnpvVkr9F29S', 'Test User Two', '0812345679', '456 Test Ave.', 'default_avatar.png', 'user', 'active', '2026-04-01 04:47:37', '2026-04-01 06:56:16');
 
 --
 -- Indexes for dumped tables
@@ -282,6 +328,12 @@ ALTER TABLE `tb_product_colors`
   ADD KEY `p_id` (`p_id`);
 
 --
+-- Indexes for table `tb_product_gallery`
+--
+ALTER TABLE `tb_product_gallery`
+  ADD PRIMARY KEY (`g_id`);
+
+--
 -- Indexes for table `tb_stock`
 --
 ALTER TABLE `tb_stock`
@@ -305,7 +357,7 @@ ALTER TABLE `tb_users`
 -- AUTO_INCREMENT for table `tb_addresses`
 --
 ALTER TABLE `tb_addresses`
-  MODIFY `addr_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `addr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_brands`
@@ -317,19 +369,19 @@ ALTER TABLE `tb_brands`
 -- AUTO_INCREMENT for table `tb_orders`
 --
 ALTER TABLE `tb_orders`
-  MODIFY `o_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `o_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tb_order_details`
 --
 ALTER TABLE `tb_order_details`
-  MODIFY `d_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `d_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_payments`
 --
 ALTER TABLE `tb_payments`
-  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_products`
@@ -344,16 +396,22 @@ ALTER TABLE `tb_product_colors`
   MODIFY `color_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tb_product_gallery`
+--
+ALTER TABLE `tb_product_gallery`
+  MODIFY `g_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `tb_stock`
 --
 ALTER TABLE `tb_stock`
-  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_users`
 --
 ALTER TABLE `tb_users`
-  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
