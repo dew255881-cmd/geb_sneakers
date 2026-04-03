@@ -44,8 +44,8 @@ CREATE TABLE `tb_addresses` (
 --
 
 INSERT INTO `tb_addresses` (`addr_id`, `u_id`, `addr_label`, `addr_fullname`, `addr_phone`, `addr_detail`, `is_default`, `created_at`, `updated_at`) VALUES
-(1, 2, 'บ้าน', 'Teeranai Thong-u-thai', '0639315561', '123 home Building, Bangkok, 10110', 1, '2026-04-01 04:55:14', '2026-04-03 07:11:32'),
-(2, 2, 'Office', 'Teeranai Thong-u-thai', '0639315561', '123 Office Building, Bangkok, 10110', 0, '2026-04-01 04:55:37', '2026-04-01 04:59:52');
+(1, 2, 'บ้าน', 'Teeranai Thong-u-thai', '00000000000', '123 home Building, Bangkok, 10110', 1, '2026-04-01 04:55:14', '2026-04-03 07:11:32'),
+(2, 2, 'Office', 'Teeranai Thong-u-thai', '00000000000', '123 Office Building, Bangkok, 10110', 0, '2026-04-01 04:55:37', '2026-04-01 04:59:52');
 
 -- --------------------------------------------------------
 
@@ -98,9 +98,9 @@ CREATE TABLE `tb_orders` (
 --
 
 INSERT INTO `tb_orders` (`o_id`, `u_id`, `addr_id`, `o_fullname`, `o_phone`, `o_address`, `o_total`, `o_status`, `admin_note`, `created_at`, `updated_at`) VALUES
-(3, 2, 1, 'Teeranai Thong-u-thai', '0639315561', '123 Office Building, Bangkok, 10110', 3940.00, 'cancelled', 'ควย', '2026-04-01 05:02:11', '2026-04-01 06:12:22'),
-(4, 2, 1, 'Teeranai Thong-u-thai', '0639315561', '123 Office Building, Bangkok, 10110', 3940.00, 'cancelled', NULL, '2026-04-01 05:35:56', '2026-04-01 05:42:04'),
-(5, 2, 1, 'Teeranai Thong-u-thai', '0639315561', '123 Office Building, Bangkok, 10110', 35060.00, 'done', NULL, '2026-04-01 05:52:30', '2026-04-01 06:21:36');
+(3, 2, 1, 'Teeranai Thong-u-thai', '00000000000', '123 Office Building, Bangkok, 10110', 3940.00, 'cancelled', 'ควย', '2026-04-01 05:02:11', '2026-04-01 06:12:22'),
+(4, 2, 1, 'Teeranai Thong-u-thai', '00000000000', '123 Office Building, Bangkok, 10110', 3940.00, 'cancelled', NULL, '2026-04-01 05:35:56', '2026-04-01 05:42:04'),
+(5, 2, 1, 'Teeranai Thong-u-thai', '00000000000', '123 Office Building, Bangkok, 10110', 35060.00, 'done', NULL, '2026-04-01 05:52:30', '2026-04-01 06:21:36');
 
 -- --------------------------------------------------------
 
